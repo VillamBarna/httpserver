@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <asm-generic/socket.h>
+#include "response.h"
 
 int main(int argc, char* argv[]) {
     int sockfd;
@@ -14,7 +15,6 @@ int main(int argc, char* argv[]) {
     socklen_t addrlen = sizeof(address);
     ssize_t valread;
     char buffer[1024] = { 0 };
-    char* response = "HTTP/1.1 200 ok\nContent-Type: text/html\nContent-Length: 7\n\nWorks!\n";
 
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         perror("socete failed");
@@ -48,10 +48,11 @@ int main(int argc, char* argv[]) {
         }
 
         valread = read(new_socket, buffer, 1024 - 1); 
-        printf("%s", buffer);
+        char* response = generate_response(buffer);
+        printf("response sent: %s\n", response);
         send(new_socket, response, strlen(response), 0); 
-        printf("response sent:\n %s", response);
         close(new_socket);
+        free(response);
     }
     close(sockfd);
     return 0;
