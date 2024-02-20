@@ -49,6 +49,11 @@ int main(int argc, char* argv[]) {
 
         valread = read(new_socket, buffer, 1024 - 1); 
         char* response = generate_response(buffer);
+        if (response == NULL) {
+            printf("NULL\n");
+            close(new_socket);
+            continue;
+        }
         printf("response sent: %s\n", response);
         send(new_socket, response, strlen(response), 0); 
         close(new_socket);
