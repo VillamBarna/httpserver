@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
             close(new_socket);
             continue;
         }
-        printf("response sent: %s\n", response);
+        printf("------------------------\nresponse sent: \n%s\n", response);
         send(new_socket, response, strlen(response), 0); 
         close(new_socket);
         free(response);

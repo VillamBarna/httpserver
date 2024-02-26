@@ -1,0 +1,1 @@
+void get_request(char target[], char* response);
